@@ -8,12 +8,13 @@ var refrigerator = {
     amount: 40,
     unit: 'can'
   },
-  changeLeo: {
+  LeoCan: {
     amount: 40,
     unit: 'can'
   }
 }
-var qustion = ['What Do you have?']
+
+var qustion = ['What Do you have?', 'How much', 'Do you have']
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -47,19 +48,35 @@ app.post('/data', jsonParser, function (req, res) {
 app.post('/webhook/', function (req, res) {
   var str = ''
   var messaging_events = req.body.entry[0].messaging
-  console.log(messaging_events)
   for (var i = 0; i < messaging_events.length; i++) {
     var event = req.body.entry[0].messaging[i]
     var sender = event.sender.id
     if (event.message && event.message.text) {
       var text = event.message.text
-      console.log(text, qustion)
+      var textSlice = event.message.text.split(' ')
+      var thig = textSlice[textSlice.length - 1].split('?')[0]
+      console.log(thig, qustion)
       if (text === qustion[0]) {
-        console.log('ds')
         Object.keys(refrigerator).forEach(function (item) {
           str += item + ','
         })
         sendTextMessage(sender, str)
+      }else if (textSlice[0] + ' ' + textSlice[1] === qustion[1]) {
+        console.log(thig)
+        if (refrigerator[thig]) {
+          sendTextMessage(sender, refrigerator[thig].amount + ' ' + refrigerator[thig].unit)
+        } else {
+          sendTextMessage(sender, "Don't Have")
+        }
+      }else if (textSlice[0] + ' ' + textSlice[1] + ' ' + textSlice[2] === qustion[2]) {
+        console.log(thig)
+        if (refrigerator[thig]) {
+          sendTextMessage(sender, 'Have')
+        } else {
+          sendTextMessage(sender, "Don't Have")
+        }
+      } else {
+        console.log(textSlice[0] + ' ' + textSlice[1])
       }
     }
   }
