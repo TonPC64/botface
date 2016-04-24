@@ -57,8 +57,9 @@ app.post('/webhook/', function (req, res) {
       var thig = textSlice[textSlice.length - 1].split('?')[0]
       console.log(thig, qustion)
       if (text === qustion[0]) {
+        str = 'Have '
         Object.keys(refrigerator).forEach(function (item) {
-          str += item + ','
+          str += item + ', '
         })
         sendTextMessage(sender, str)
       }else if (textSlice[0] + ' ' + textSlice[1] === qustion[1]) {
@@ -71,7 +72,7 @@ app.post('/webhook/', function (req, res) {
       }else if (textSlice[0] + ' ' + textSlice[1] + ' ' + textSlice[2] === qustion[2]) {
         console.log(thig)
         if (refrigerator[thig]) {
-          sendTextMessage(sender, 'Have')
+          sendTextMessage(sender, 'Have ' + refrigerator[thig].amount + ' ' + refrigerator[thig].unit)
         } else {
           sendTextMessage(sender, "Don't Have")
         }
