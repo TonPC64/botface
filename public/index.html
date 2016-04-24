@@ -6,11 +6,12 @@
   </head>
   <body>
     <div ng-controller="regidCtrl">
+        {{data}}
         <input type="text" ng-model="thing">
         <input type="text" ng-model="amount" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
         <input type="text" ng-model="unit">
         <button type="button" ng-click="addData(thing,amount,unit)">Add</button>
-        {{thing}}
+
     </div>
   </body>
 </html>

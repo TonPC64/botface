@@ -1,7 +1,19 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
 var app = express()
 var request = require('request')
+var refrigerator = {
+  changeCan: {
+    amount: 40,
+    unit: 'can'
+  },
+  changeLeo: {
+    amount: 40,
+    unit: 'can'
+  }
+}
+var qustion = ['What Do you have?']
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -15,16 +27,40 @@ app.get('/webhook/', function (req, res) {
   res.send('Error, wrong validation token')
 })
 
+app.get('/data', function (req, res) {
+  res.send(refrigerator)
+})
+
+app.post('/data', jsonParser, function (req, res) {
+  var data = req.body
+  if (!refrigerator[data.key]) {
+    refrigerator[data.key] = {
+      amount: data.amount,
+      unit: data.unit
+    }
+  } else {
+    refrigerator[data.key].amount = parseInt(refrigerator[data.key].amount, 0) + parseInt(data.amount, 0)
+  }
+  res.send(refrigerator)
+})
+
 app.post('/webhook/', function (req, res) {
-  messaging_events = req.body.entry[0].messaging
-  for (i = 0; i < messaging_events.length; i++) {
-    event = req.body.entry[0].messaging[i]
-    sender = event.sender.id
+  var str = ''
+  var messaging_events = req.body.entry[0].messaging
+  console.log(messaging_events)
+  for (var i = 0; i < messaging_events.length; i++) {
+    var event = req.body.entry[0].messaging[i]
+    var sender = event.sender.id
     if (event.message && event.message.text) {
-      text = event.message.text
-      // Handle a text message from this sender
-      console.log(text)
-      sendTextMessage(sender, 'echo ' + text.substring(0, 200))
+      var text = event.message.text
+      console.log(text, qustion)
+      if (text === qustion[0]) {
+        console.log('ds')
+        Object.keys(refrigerator).forEach(function (item) {
+          str += item + ','
+        })
+        sendTextMessage(sender, str)
+      }
     }
   }
   res.sendStatus(200)
@@ -33,7 +69,7 @@ app.post('/webhook/', function (req, res) {
 var token = 'CAAOZBaoxks00BANxesqQoQZCvKUxZCk07agpQvIE6oAvjMha41MdibFepazBd6AJfCpUkgwk4fskCrQEdP7l9icZB3VGMTjZBoEMIzG4NZANFfzIsTa0XarDIJUNlS2ZAZALdi9idLf2LgXLGLhMz2bZB82ZBOoPq17wa999Lf4Xmt57rTF3XQEqWAQxyP6mnOeeksK1wTZAuwqPgZDZD'
 
 function sendTextMessage (sender, text) {
-  messageData = {
+  var messageData = {
     text: text
   }
   request({
@@ -42,7 +78,7 @@ function sendTextMessage (sender, text) {
     method: 'POST',
     json: {
       recipient: {id: sender},
-      message: messageData,
+      message: messageData
     }
   }, function (error, response, body) {
     if (error) {
