@@ -55,7 +55,7 @@ app.post('/webhook/', function (req, res) {
       }else if (textSlice[0] + ' ' + textSlice[1] + ' ' + textSlice[2] === qustion[2]) {
         console.log(thig)
         if (refrigerator[thig]) {
-          sendTextMessage(sender, refrigerator[thig].amount + ' ' + refrigerator[thig].unit)
+          sendTextMessage(sender, 'Have')
         } else {
           sendTextMessage(sender, "Don't Have")
         }
