@@ -37,7 +37,9 @@ app.post('/webhook/', function (req, res) {
     var sender = event.sender.id
     if (event.message && event.message.text) {
       var text = event.message.text
+      console.log(text, qustion)
       if (text === qustion) {
+        console.log('ds')
         Object.keys(refrigerator).forEach(function (item) {
           str += item + ','
         })
