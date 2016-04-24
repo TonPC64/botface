@@ -53,7 +53,7 @@ app.post('/webhook/', function (req, res) {
         } else {
           sendTextMessage(sender, "Don't Have")
         }
-      }else if (textSlice[0] + ' ' + textSlice[1] === qustion[2]) {
+      }else if (textSlice[0] + ' ' + textSlice[1] + ' ' + textSlice[2] === qustion[2]) {
         console.log(thig)
         if (refrigerator[thig]) {
           sendTextMessage(sender, refrigerator[thig].amount + ' ' + refrigerator[thig].unit)
