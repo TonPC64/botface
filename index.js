@@ -85,7 +85,7 @@ app.post('/webhook/', function (req, res) {
         } else {
           refrigerator[textSlice[1]].amount = parseInt(refrigerator[textSlice[1]].amount, 0) + parseInt(textSlice[2], 0)
         }
-        sendTextMessage(sender, "Don't Have")
+        sendTextMessage(sender, 'Done')
       } else {
         console.log(textSlice[0] + ' ' + textSlice[1])
       }
