@@ -14,7 +14,7 @@ var refrigerator = {
   }
 }
 
-var qustion = ['What Do you have?', 'How much', 'Do you have']
+var qustion = ['What Do you have?', 'How much', 'Do you have' , 'Add']
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -71,6 +71,13 @@ app.post('/webhook/', function (req, res) {
       }else if (textSlice[0] + ' ' + textSlice[1] + ' ' + textSlice[2] === qustion[2]) {
         console.log(thig)
         if (refrigerator[thig]) {
+          sendTextMessage(sender, 'Have')
+        } else {
+          sendTextMessage(sender, "Don't Have")
+        }
+      }else if (textSlice[0] === qustion[3]) {
+        console.log(thig)
+        if (!refrigerator[textSlice[1]]) {
           sendTextMessage(sender, 'Have')
         } else {
           sendTextMessage(sender, "Don't Have")
