@@ -11,5 +11,8 @@ angular.module('refidApp', [])
           $scope.data = req
         })
       })
+      $scope.thing = ''
+      $scope.amount = ''
+      $scope.unit = ''
     }
   })

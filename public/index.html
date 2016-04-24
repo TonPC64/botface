@@ -6,22 +6,16 @@
   </head>
   <body>
     <div ng-controller="regidCtrl">
-        <table>
-          <tr>
-            <td>
-              <div ng-repeat="val in data">
-                {{val}}
+
+              <div ng-repeat="(key,val) in data">
+                {{key}}
+                {{val.amount}} {{val.unit }}
               </div>
-            </td>
-            <td align="center">
-              ขื่อ <input type="text" ng-model="thing"><br>
+
+              ชื่อ <input type="text" ng-model="thing"><br>
               จำนวน <input type="text" ng-model="amount" onkeypress='return event.charCode >= 48 && event.charCode <= 57'><br>
               หน่วย <input type="text" ng-model="unit"><br>
               <button type="button" ng-click="addData(thing,amount,unit)">Add</button>
-            </td>
-          </tr>
-        </table>
-
 
     </div>
   </body>
