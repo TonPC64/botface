@@ -78,10 +78,14 @@ app.post('/webhook/', function (req, res) {
       }else if (textSlice[0] === qustion[3]) {
         console.log(thig)
         if (!refrigerator[textSlice[1]]) {
-          sendTextMessage(sender, 'Have')
+          refrigerator[textSlice[1]] = {
+            amount: textSlice[2],
+            unit: textSlice[3]
+          }
         } else {
-          sendTextMessage(sender, "Don't Have")
+          refrigerator[textSlice[1]].amount = parseInt(refrigerator[textSlice[1]].amount, 0) + parseInt(textSlice[2], 0)
         }
+        sendTextMessage(sender, "Don't Have")
       } else {
         console.log(textSlice[0] + ' ' + textSlice[1])
       }
