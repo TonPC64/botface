@@ -18,7 +18,6 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.post('/webhook/', function (req, res) {
-  console.log(req.body)
   messaging_events = req.body.entry[0].messaging
   for (i = 0; i < messaging_events.length; i++) {
     event = req.body.entry[0].messaging[i]
@@ -27,7 +26,7 @@ app.post('/webhook/', function (req, res) {
       text = event.message.text
       // Handle a text message from this sender
       console.log(text)
-      sendTextMessage(sender, 'Text received, echo: ' + text.substring(0, 200))
+      sendTextMessage(sender, 'echo : ' + text.substring(0, 200))
     }
   }
   res.sendStatus(200)
