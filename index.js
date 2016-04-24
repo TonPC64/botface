@@ -6,9 +6,7 @@ var request = require('request')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.send('Hello Word')
-})
+app.use(express.static('public'))
 
 app.get('/webhook/', function (req, res) {
   if (req.query['hub.verify_token'] === 'bot_messenger_page') {
@@ -26,7 +24,7 @@ app.post('/webhook/', function (req, res) {
       text = event.message.text
       // Handle a text message from this sender
       console.log(text)
-      sendTextMessage(sender, 'echo : ' + text.substring(0, 200))
+      sendTextMessage(sender, 'echo ' + text.substring(0, 200))
     }
   }
   res.sendStatus(200)
